@@ -7,29 +7,6 @@ import requests
 from bs4 import BeautifulSoup
 
 
-
-# Parse badly formed HTML
-html_data = "<p>Some<b>bad<i>HTML"
-soup = BeautifulSoup(html_data, "html.parser")
-
-print("Prettified HTML:")
-print(soup.prettify())
-
-# Access specific elements
-print("\nFind string 'bad':")
-print(soup.find(string="bad"))
-
-print("\nAccess <i> tag:")
-print(soup.i)
-
-# Parse badly formed XML
-xml_data = "<tag1>Some<tag2/>bad<tag3>XML"
-soup_xml = BeautifulSoup(xml_data, "xml")
-
-print("\nPrettified XML:")
-print(soup_xml.prettify())
-
-
 # Code ends here
 
 # function to get the html source text of the medium article
@@ -41,7 +18,7 @@ def get_page():
 	# Code ends here
 	
 	# handling possible error
-	if not re.match(r'https://www.crummy.com/software/BeautifulSoup/bs4/doc/',url):
+	if not re.match(r'https?://medium.com/',url):
 		print('Please enter a valid website, or make sure it is a medium article')
 		sys.exit(1)
 
@@ -82,6 +59,7 @@ def save_file(text):
 	# Code here - write a file using with (2 lines)
 	with open(fname, 'w', encoding='utf-8') as f:
 		f.write(text)
+		f.close()
 
 	# Code ends here
 
@@ -94,4 +72,5 @@ if __name__ == '__main__':
 	# Instructions to Run this python code
 
 	# Give url as https://medium.com/@subashgandyer/papa-what-is-a-neural-network-c5e5cc427c7
+
 	#https://www.crummy.com/software/BeautifulSoup/bs4/doc/
