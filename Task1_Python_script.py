@@ -1,31 +1,54 @@
 # Python script to scrape an article given the url of the article and store the extracted text in a file
 # Url: https://medium.com/@subashgandyer/papa-what-is-a-neural-network-c5e5cc427c7
-
+import re
+import sys
 import os
 import requests
-import re
-# Code here - Import BeautifulSoup library
 from bs4 import BeautifulSoup
+
+
+
+# Parse badly formed HTML
+html_data = "<p>Some<b>bad<i>HTML"
+soup = BeautifulSoup(html_data, "html.parser")
+
+print("Prettified HTML:")
+print(soup.prettify())
+
+# Access specific elements
+print("\nFind string 'bad':")
+print(soup.find(string="bad"))
+
+print("\nAccess <i> tag:")
+print(soup.i)
+
+# Parse badly formed XML
+xml_data = "<tag1>Some<tag2/>bad<tag3>XML"
+soup_xml = BeautifulSoup(xml_data, "xml")
+
+print("\nPrettified XML:")
+print(soup_xml.prettify())
+
+
 # Code ends here
 
 # function to get the html source text of the medium article
 def get_page():
-	global url
+	global url 
 	
 	# Code here - Ask the user to input "Enter url of a medium article: " and collect it in url
-	print("Enter url of a medium article: ")
-	url = input()
+	url = input("Enter url of a medium article:").strip()
 	# Code ends here
 	
 	# handling possible error
-	if not re.match(r'https?://medium.com/',url):
+	if not re.match(r'https://www.crummy.com/software/BeautifulSoup/bs4/doc/',url):
 		print('Please enter a valid website, or make sure it is a medium article')
 		sys.exit(1)
 
 	# Code here - Call get method in requests object, pass url and collect it in res
 	res = requests.get(url)
-	# Code ends here
 
+	# Code ends here
 	res.raise_for_status()
 	soup = BeautifulSoup(res.text, 'html.parser')
 	return soup
@@ -57,9 +80,9 @@ def save_file(text):
 	fname = f'scraped_articles/{name}.txt'
 	
 	# Code here - write a file using with (2 lines)
-	file = open(fname, "w")
-	file.write(text)
-	file.close()
+	with open(fname, 'w', encoding='utf-8') as f:
+		f.write(text)
+
 	# Code ends here
 
 	print(f'File saved in directory {fname}')
@@ -69,4 +92,6 @@ if __name__ == '__main__':
 	text = collect_text(get_page())
 	save_file(text)
 	# Instructions to Run this python code
-	# Give url as https://medium.com/@subashgandyer/papa-what-is-a-neural-network-c5e5cc427c7
+
+	# Give url as
+	#https://www.crummy.com/software/BeautifulSoup/bs4/doc/
